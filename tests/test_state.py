@@ -20,4 +20,3 @@ class TestState(TestCase):
         self.assertRaises(TypeError, parse_state, 1)
         self.assertRaises(TypeError, parse_state, {})
         self.assertRaises(ValueError, parse_state, 'not a state')
-

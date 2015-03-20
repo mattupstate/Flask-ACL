@@ -1,3 +1,7 @@
 *.pyc
 /docs/_build
 /venv
+.tox
+*.egg
+*.egg-info
+.eggs

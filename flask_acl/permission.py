@@ -1,16 +1,27 @@
+# -*- coding: utf-8 -*-
+"""
+    flask_acl.permission
+    ~~~~~~~~~~~~~~~~~~~~
+
+    Permisisons module
+"""
+
 from collections import Container, Callable
 
+from flask_acl._compat import string_types
 from flask_acl.globals import current_acl_manager
 
 
 # Permissions
 class All(object):
+
     def __contains__(self, other):
         return True
+
     def __repr__(self):
         return 'ALL'
 
-   
+
 default_permission_sets = {
     'ALL': All(),
     'http.get': set(('http.get', 'http.head', 'http.options')),
@@ -23,7 +34,7 @@ def parse_permission_set(input):
     Requires a Flask app context.
 
     """
-    if isinstance(input, basestring):
+    if isinstance(input, string_types):
         try:
             return current_acl_manager.permission_sets[input]
         except KeyError:
@@ -41,7 +52,7 @@ def is_permission_in_set(perm, perm_set):
 
     """
 
-    if isinstance(perm_set, basestring):
+    if isinstance(perm_set, string_types):
         return perm == perm_set
     elif isinstance(perm_set, Container):
         return perm in perm_set

@@ -20,7 +20,7 @@ class TestExtension(FlaskTestCase):
         with self.client:
             rv = self.client.get('/default_allow')
             self.assertEqual(rv.status_code, 200)
-            self.assertEqual(rv.data, 'allowed')
+            self.assertEqual(rv.data, b'allowed')
 
     def test_route_default_deny(self):
         self.flask.config['ACL_ROUTE_DEFAULT_STATE'] = False
@@ -31,10 +31,9 @@ class TestExtension(FlaskTestCase):
         with self.client:
             rv = self.client.get('/default_deny', follow_redirects=True)
             self.assertEqual(rv.status_code, 401)
-            self.assertEqual(rv.data, 'please login')
+            self.assertEqual(rv.data, b'please login')
 
     def test_route_allow(self):
-
         @self.flask.route('/allow')
         @self.authz.route_acl('''
             ALLOW ANY ALL
@@ -45,10 +44,9 @@ class TestExtension(FlaskTestCase):
         with self.client:
             rv = self.client.get('/allow')
             self.assertEqual(rv.status_code, 200)
-            self.assertEqual(rv.data, 'allowed')
+            self.assertEqual(rv.data, b'allowed')
 
     def test_route_deny(self):
-
         @self.flask.route('/deny')
         @self.authz.route_acl('''
             DENY ANY ALL
@@ -59,10 +57,9 @@ class TestExtension(FlaskTestCase):
         with self.client:
             rv = self.client.get('/deny', follow_redirects=True)
             self.assertEqual(rv.status_code, 401)
-            self.assertEqual(rv.data, 'please login')
+            self.assertEqual(rv.data, b'please login')
 
     def test_route_deny_stealth(self):
-
         @self.flask.route('/stealth')
         @self.authz.route_acl('''
             DENY ANY ALL
@@ -73,5 +70,3 @@ class TestExtension(FlaskTestCase):
         with self.client:
             rv = self.client.get('/stealth')
             self.assertEqual(rv.status_code, 404)
-
-
